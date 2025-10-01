@@ -22,7 +22,7 @@ namespace Trader
     {
         public RegisterPage()
         {
-            InitializeComponent();
+
         }
     }
 }
