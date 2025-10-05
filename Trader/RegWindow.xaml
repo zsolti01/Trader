@@ -1,0 +1,169 @@
+﻿<Window x:Class="Trader.RegWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Trader"
+        mc:Ignorable="d"
+        Title="RegWindow" Height="450" Width="1000">
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+        Text="Felhasználónév"
+        FontSize="25px"
+        FontWeight="Bold"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="0"
+        Grid.Column="0"
+        Padding="5"
+        />
+
+        <TextBlock
+        Text="Jelszó"
+        FontSize="25px"
+        FontWeight="Bold"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="1"
+        Grid.Column="0"
+        Padding="5"
+        />
+
+        <TextBlock
+        Text="Jelszó újra"
+        FontSize="25px"
+        FontWeight="Bold"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="2"
+        Grid.Column="0"
+        Padding="5"
+        />
+
+        <TextBlock
+        Text="Teljes név"
+        FontSize="25px"
+        FontWeight="Bold"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="3"
+        Grid.Column="0"
+        Padding="5"
+        />
+
+        <TextBlock
+        Text="Email"
+        FontSize="25px"
+        FontWeight="Bold"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="4"
+        Grid.Column="0"
+        Padding="5"
+        />
+
+        <TextBox
+        FontSize="25px"
+        HorizontalContentAlignment="Left"
+        VerticalContentAlignment="Center"
+        Grid.Row="0"
+        Grid.Column="1"
+        />
+
+        <PasswordBox
+        FontSize="25px"
+        HorizontalContentAlignment="Left"
+        VerticalContentAlignment="Center"
+        Grid.Row="1"
+        Grid.Column="1"
+        />
+
+        <PasswordBox
+        FontSize="25px"
+        HorizontalContentAlignment="Left"
+        VerticalContentAlignment="Center"
+        Grid.Row="2"
+        Grid.Column="1"
+        />
+
+        <TextBox
+        FontSize="25px"
+        HorizontalContentAlignment="Left"
+        VerticalContentAlignment="Center"
+        Grid.Row="3"
+        Grid.Column="1"
+        />
+
+        <TextBox
+        FontSize="25px"
+        HorizontalContentAlignment="Left"
+        VerticalContentAlignment="Center"
+        Grid.Row="4"
+        Grid.Column="1"
+        />
+
+        <StackPanel Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left">
+            <TextBlock FontSize="25px">
+                
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left">
+            <Button
+            x:Name="regButton"
+            Content="Regisztráció"
+            FontSize="20"
+            Foreground="White"
+            Background="Blue"
+            Height="50"
+            Width="170"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center" Click="regButton_Click"
+            />
+        </StackPanel>
+        <StackPanel Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left">
+            <Button
+            x:Name="toLogIn"
+            Content="Már van fiókom"
+            FontSize="20"
+            Foreground="White"
+            Background="Blue"
+            Height="50"
+            Width="170"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center" Click="toLogIn_Click"
+        />
+        </StackPanel>
+        <StackPanel Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left">
+            <Button
+            x:Name="exit"
+            Content="Kilépés"
+            FontSize="20"
+            Foreground="White"
+            Background="red"
+            Height="50"
+            Width="170"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center" Click="exit_Click"
+        />
+        </StackPanel>
+    </Grid>
+</Window>
