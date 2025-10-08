@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trader"
         mc:Ignorable="d"
-        Title="RegWindow" Height="450" Width="1000">
+        Title="Regisztráció" Height="450" Width="1000">
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -81,6 +81,7 @@
         />
 
         <TextBox
+        x:Name="userNameTextBox"
         FontSize="25px"
         HorizontalContentAlignment="Left"
         VerticalContentAlignment="Center"
@@ -89,6 +90,7 @@
         />
 
         <PasswordBox
+        x:Name="passwordTextBox"
         FontSize="25px"
         HorizontalContentAlignment="Left"
         VerticalContentAlignment="Center"
@@ -97,6 +99,7 @@
         />
 
         <PasswordBox
+        x:Name="passwordAgainTextBox"
         FontSize="25px"
         HorizontalContentAlignment="Left"
         VerticalContentAlignment="Center"
@@ -105,6 +108,7 @@
         />
 
         <TextBox
+        x:Name="fullNameTextBox"
         FontSize="25px"
         HorizontalContentAlignment="Left"
         VerticalContentAlignment="Center"
@@ -113,6 +117,7 @@
         />
 
         <TextBox
+        x:Name="emailTextBox"
         FontSize="25px"
         HorizontalContentAlignment="Left"
         VerticalContentAlignment="Center"

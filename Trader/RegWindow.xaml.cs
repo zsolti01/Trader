@@ -19,6 +19,8 @@ namespace Trader
     /// </summary>
     public partial class RegWindow : Window
     {
+        private readonly DatabaseStatements db = new DatabaseStatements();
+
         public RegWindow()
         {
             InitializeComponent();
@@ -29,6 +31,23 @@ namespace Trader
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
+
+            if (passwordTextBox.Password == passwordAgainTextBox.Password)
+            {
+                var user = new
+                {
+                    UserName = userNameTextBox.Text,
+                    FullName = fullNameTextBox.Text,
+                    UserPassword = passwordTextBox.Password,
+                    Salt = "",
+                    Email = emailTextBox.Text
+                };
+                MessageBox.Show(db.AddNewUser(user).ToString());
+            }
+            else
+            {
+                MessageBox.Show("Eltérő jelszavak!");
+            }
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
