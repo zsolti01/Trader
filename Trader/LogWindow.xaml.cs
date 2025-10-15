@@ -19,6 +19,9 @@ namespace Trader
     /// </summary>
     public partial class LogWindow : Window
     {
+        private readonly DatabaseStatements _databaseStatements = new DatabaseStatements();
+        private readonly MainWindow _mainWindow;
+
         public LogWindow()
         {
             InitializeComponent();
@@ -31,6 +34,13 @@ namespace Trader
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
+            var user = new
+            {
+                Name = userNameTextBox.Text,
+                Pass = passwordTextBox.Password
+            };
+            MessageBox.Show(_databaseStatements.LoginUser(user).ToString());
+
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();

@@ -20,6 +20,8 @@ namespace Trader
     public partial class RegWindow : Window
     {
         private readonly DatabaseStatements db = new DatabaseStatements();
+        private readonly DatabaseStatements _databaseStatements = new DatabaseStatements();
+        private readonly MainWindow _mainWindow;
 
         public RegWindow()
         {
@@ -28,10 +30,6 @@ namespace Trader
 
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
-
             if (passwordTextBox.Password == passwordAgainTextBox.Password)
             {
                 var user = new
@@ -43,6 +41,9 @@ namespace Trader
                     Email = emailTextBox.Text
                 };
                 MessageBox.Show(db.AddNewUser(user).ToString());
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
             }
             else
             {

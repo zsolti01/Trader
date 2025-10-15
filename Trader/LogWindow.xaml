@@ -48,6 +48,7 @@
     />
 
         <TextBox
+    x:Name="userNameTextBox"
     FontSize="25px"
     HorizontalContentAlignment="Left"
     VerticalContentAlignment="Center"
@@ -56,6 +57,7 @@
     />
 
         <PasswordBox
+    x:Name="passwordTextBox"
     FontSize="25px"
     HorizontalContentAlignment="Left"
     VerticalContentAlignment="Center"

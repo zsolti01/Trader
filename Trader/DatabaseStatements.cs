@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using MySql.Data.MySqlClient;
 
 namespace Trader
@@ -29,6 +30,8 @@ namespace Trader
                 cmd.Parameters.AddWithValue("@salt", newUser[3].GetValue(user));
                 cmd.Parameters.AddWithValue("@email", newUser[4].GetValue(user));
 
+                cmd.ExecuteNonQuery();
+
                 conn._connection.Close();
 
                 return new { message = "Sikeres hozzáadás!" };
@@ -37,6 +40,28 @@ namespace Trader
             {
                 return new { message = ex.Message };
             }
+        }
+
+        public object LoginUser(object user)
+        {
+            conn._connection.Open ();
+
+            string sql = "SELECT * FROM users WHERE UserName = @username AND Password = @password";
+
+            MySqlCommand cmd = new MySqlCommand (sql, conn._connection);
+
+            var logUser = user.GetType().GetProperties();
+
+            cmd.Parameters.AddWithValue("@username", logUser[0].GetValue(user));
+            cmd.Parameters.AddWithValue("@password", logUser[1].GetValue(user));
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            object isRegistered = reader.Read() ? new { message = "Regisztált" } : new { message = "Nem regisztrált" };
+
+            conn._connection.Close();
+
+            return isRegistered;
         }
     }
 }
