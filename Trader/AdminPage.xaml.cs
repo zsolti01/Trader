@@ -27,7 +27,7 @@ namespace Trader
         {
             InitializeComponent();
             _mainWindow = mainWindow;
-            userDataGrid.ItemsSource = new object[] { };
+            userDataGrid.ItemsSource = _databaseStatements.UserList();
         }
     }
 }

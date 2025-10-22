@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf;
@@ -18,17 +19,19 @@ namespace Trader
             try
             {
                 conn._connection.Open();
+                var newUser = user.GetType().GetProperties();
+
+                string salt = GenerateSalt();
+                string hashedPassword = ComputeHmacSha256(newUser[2].GetValue(user).ToString(), salt);
 
                 string sql = "INSERT INTO `users`(`UserName`, `FullName`, `PASSWORD`, `Salt`, `Email`) VALUES (@username,@fullname,@password,@salt,@email)";
 
                 MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
 
-                var newUser = user.GetType().GetProperties();
-
                 cmd.Parameters.AddWithValue("@username", newUser[0].GetValue(user));
                 cmd.Parameters.AddWithValue("@fullname", newUser[1].GetValue(user));
-                cmd.Parameters.AddWithValue("@password", newUser[2].GetValue(user));
-                cmd.Parameters.AddWithValue("@salt", newUser[3].GetValue(user));
+                cmd.Parameters.AddWithValue("@password", hashedPassword);
+                cmd.Parameters.AddWithValue("@salt", salt);
                 cmd.Parameters.AddWithValue("@email", newUser[4].GetValue(user));
 
                 cmd.ExecuteNonQuery();
@@ -43,45 +46,86 @@ namespace Trader
             }
         }
 
-        public object LoginUser(object user)
+        public bool LoginUser(object user)
         {
-            conn._connection.Open ();
+            try
+            {
+                conn._connection.Open();
 
-            string sql = "SELECT * FROM users WHERE UserName = @username AND Password = @password";
+                string sql = "SELECT * FROM users WHERE UserName = @username";
 
-            MySqlCommand cmd = new MySqlCommand (sql, conn._connection);
+                MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
 
-            var logUser = user.GetType().GetProperties();
+                var logUser = user.GetType().GetProperties();
 
-            cmd.Parameters.AddWithValue("@username", logUser[0].GetValue(user));
-            cmd.Parameters.AddWithValue("@password", logUser[1].GetValue(user));
+                cmd.Parameters.AddWithValue("@username", logUser[0].GetValue(user));
 
-            MySqlDataReader reader = cmd.ExecuteReader();
+                MySqlDataReader reader = cmd.ExecuteReader();
 
-            object isRegistered = reader.Read() ? new { message = "Regisztált" } : new { message = "Nem regisztrált" };
+                if (reader.Read())
+                {
+                    string storedHash = reader.GetString(3);
+                    string storedSalt = reader.GetString(4);
+                    string computeHash = ComputeHmacSha256(logUser[1].GetValue(user).ToString(), storedSalt);
 
-            conn._connection.Close();
+                    conn._connection.Close();
 
-            return isRegistered;
+                    return storedHash == computeHash;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public DataView UserList()
         {
-            conn._connection.Open();
+            try
+            {
+                conn._connection.Open();
 
-            string sql = "SELECT * FROM users";
+                string sql = "SELECT * FROM users";
 
-            MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
+                MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
 
-            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn._connection);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(sql, conn._connection);
 
-            DataTable dt = new DataTable();
+                DataTable dt = new DataTable();
 
-            adapter.Fill(dt);
+                adapter.Fill(dt);
 
-            conn._connection.Close();
+                conn._connection.Close();
 
-            return dt.DefaultView;
+                return dt.DefaultView;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public string GenerateSalt()
+        {
+            byte[] salt = new byte[16];
+
+            using (var rnd = RandomNumberGenerator.Create())
+            {
+                rnd.GetBytes(salt);
+            }
+
+            return Convert.ToBase64String(salt);
+        }
+
+        public string ComputeHmacSha256(string password, string salt)
+        {
+            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(salt)))
+            {
+                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }
