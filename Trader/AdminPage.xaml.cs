@@ -29,5 +29,18 @@ namespace Trader
             _mainWindow = mainWindow;
             userDataGrid.ItemsSource = _databaseStatements.UserList();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var id = idTextBox.Text;
+
+            var userId = new
+            {
+                Id = id
+            };
+
+            MessageBox.Show(_databaseStatements.DeleteUser(userId).ToString());
+            userDataGrid.ItemsSource = _databaseStatements.UserList();
+        }
     }
 }

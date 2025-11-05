@@ -9,8 +9,10 @@
       Title="AdminPage">
 
     <Grid Margin="50">
-        <DataGrid x:Name="userDataGrid">
-            
+        <DataGrid x:Name="userDataGrid" Height="200px" Width="400px" Margin="165,41,135,109">
+
         </DataGrid>
+        <TextBox HorizontalAlignment="Left" Margin="165,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" x:Name="idTextBox" Height="30"/>
+        <Button Content="Töröl" Margin="290,246,290,74" Click="Button_Click"></Button>
     </Grid>
 </Page>

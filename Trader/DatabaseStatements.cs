@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Google.Protobuf;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Google.Protobuf;
-using MySql.Data.MySqlClient;
 
 namespace Trader
 {
@@ -87,7 +88,7 @@ namespace Trader
             {
                 conn._connection.Open();
 
-                string sql = "SELECT * FROM users";
+                string sql = "SELECT `UserName`, FullName`, `Email`, `RegDate` FROM `users`";
 
                 MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
 
@@ -104,6 +105,32 @@ namespace Trader
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public object DeleteUser(object id)
+        {
+            try
+            {
+                conn._connection.Open();
+
+                string sql = "DELETE FROM users WHERE Id = @id";
+
+                MySqlCommand cmd = new MySqlCommand(sql, conn._connection);
+
+                var idObj = id.GetType().GetProperties();
+
+                cmd.Parameters.AddWithValue("@id", idObj[0].GetValue(id));
+
+                cmd.ExecuteNonQuery();
+
+                conn._connection.Close();
+
+                return new { message = "Sikeres törlés!" };
+            }
+            catch (Exception ex)
+            {
+                return new { message = ex.Message };
             }
         }
 
